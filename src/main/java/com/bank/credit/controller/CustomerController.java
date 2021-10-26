@@ -8,6 +8,7 @@ import com.bank.credit.model.Customer;
 import com.bank.credit.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import javax.validation.constraints.Min;
 
 @RestController
 @RequestMapping(path = "/api/v1/customers")
+@Validated
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -29,7 +31,7 @@ public class CustomerController {
     }
 
     @GetMapping("{customerId}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("customerId") @Valid @Min(1) Long customerId) {
+    public ResponseEntity<Customer> getCustomerById(@Valid @PathVariable("customerId") Long customerId) {
         Customer customer = customerService.getCustomerById(customerId);
         return ResponseEntity.ok().body(customer);
     }
@@ -41,7 +43,7 @@ public class CustomerController {
     }
 
     @DeleteMapping(path = "{customerId}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable("customerId") Long customerId) {
+    public ResponseEntity<?> deleteCustomer(@Valid @PathVariable("customerId") Long customerId) {
         customerService.deleteCustomer(customerId);
         return ResponseEntity.ok()
                 .body(
@@ -51,10 +53,10 @@ public class CustomerController {
 
     @PutMapping(path = {"{customerId}"})
     public ResponseEntity<?> updateCustomer(
+            @Valid
             @PathVariable("customerId") Long customerId,
             @RequestBody(required = false) Customer customer) {
         Customer updatedCustomer = customerService.updateCustomer(customerId, customer);
         return ResponseEntity.ok().body(updatedCustomer);
     }
-
 }

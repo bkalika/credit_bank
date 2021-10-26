@@ -1,16 +1,22 @@
 package com.bank.credit.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity(name = "address")
 @Table(name = "address")
+@JsonIgnoreProperties(value = {"customer", "created_date", "updated_date"})
 public class Address implements Serializable {
 
     @Id
@@ -29,43 +35,67 @@ public class Address implements Serializable {
     )
     private Long id;
 
+    @PositiveOrZero
+    @NotNull(message = "customer_id cannot be null")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "customer_id",
             nullable = false)
     private Customer customer;
 
+    @Positive
+    @NotNull(message = "zip_code cannot be null")
+    @Size(min = 5, max = 5, message = "zip_code must be 5 characters")
     @Column(
             name = "zip_code",
-            nullable = false
+            nullable = false,
+            length = 5
     )
     private Long zipCode;
 
+    @NotNull(message = "country cannot be null")
+    @Size(max = 25, message = "country must be less than 25 characters")
     @Column(
             name = "country",
-            nullable = false
+            nullable = false,
+            length = 25
     )
     private String country;
 
+    @NotNull(message = "city cannot be null")
+    @Size(max = 40, message = "city must be less than 40 characters")
     @Column(
             name = "city",
-            nullable = false
+            nullable = false,
+            length = 40
     )
     private String city;
 
+    @NotNull(message = "street cannot be null")
+    @Size(max = 255, message = "street must be less than 255 characters")
     @Column(
             name = "street",
-            nullable = false
+            nullable = false,
+            length = 255
     )
     private String street;
 
+    @Positive
+    @NotNull(message = "build_number cannot be null")
+    @Size(max = 15, message = "build_number must be less than 15 characters")
     @Column(
             name = "build_number",
-            nullable = false
+            nullable = false,
+            length = 15
     )
     private String buildNumber;
 
-    @Column(name = "apartment")
+    @Positive
+    @Size(max = 15, message = "apartment must be less than 15 characters")
+    @Column(
+            name = "apartment",
+            length = 15
+    )
     private Long apartment;
 
     @Column(
@@ -87,14 +117,14 @@ public class Address implements Serializable {
     @CreationTimestamp
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd 'T' HH:mm:ss[.SSS][.SS][.S]"
+            pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
     )
     private LocalDateTime createdDate;
 
     @Column(name = "updated_date")
     @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd 'T' HH:mm:ss[.SSS][.SS][.S]"
+            pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
     )
     private LocalDateTime updatedDate;
 
@@ -247,5 +277,4 @@ public class Address implements Serializable {
                 ", updatedDate=" + updatedDate +
                 '}';
     }
-
 }

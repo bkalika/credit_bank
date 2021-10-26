@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -22,7 +23,7 @@ import java.util.Objects;
         }
 )
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdDate", "updatedDate"})
+@JsonIgnoreProperties(value = {"created_date", "updated_date"})
 public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -42,38 +43,78 @@ public class Customer implements Serializable {
     )
     private Long id;
 
+    @Positive
+    @NotNull(message = "inn cannot be null")
+    @Size(min = 10, max = 10, message = "inn must be 10 characters")
     @Column(
             name = "inn",
             nullable = false,
-            unique = true
+            unique = true,
+            length = 10
     )
     private Long inn;
 
+    @NotNull(message = "first_name cannot be null")
+    @Size(max = 35, message = "first_name must be less than 35 characters")
     @Column(
             name = "first_name",
-            nullable = false
+            nullable = false,
+            length = 35
     )
     private String firstName;
 
-    @Column(name = "last_name")
+    @NotNull(message = "last_name cannot be null")
+    @Size(max = 35, message = "last_name must be less than 35 characters")
+    @Column(
+            name = "last_name",
+            length = 35
+    )
     private String lastName;
 
-    @Column(name = "phone")
+    @Positive
+    @Size(min = 10, max = 10, message = "phone must be 10 characters")
+    @Column(
+            name = "phone",
+            length = 10
+    )
     private String phone;
 
-    @Column(name = "email")
+    @Email(message = "Email should be valid")
+    @NotNull(message = "email cannot be null")
+    @Column(
+            name = "email",
+            nullable = false
+    )
     private String email;
 
-    @Column(name = "passport_code")
+    @Positive
+    @NotNull(message = "passport_code cannot be null")
+    @Size(min = 2, max = 2, message = "passport_code must be 2 characters")
+    @Column(
+            name = "passport_code",
+            nullable = false,
+            length = 2
+    )
     private String passportCode;
 
-    @Column(name = "passport_number")
+    @NotNull(message = "passport_number cannot be null")
+    @Size(min = 6, max = 10, message = "passport_number must be between 6 and 10 characters")
+    @Column(
+            name = "passport_number",
+            nullable = false,
+            length = 10
+    )
     private String passportNumber;
 
-    @Column(name = "date_of_birth")
+    @PastOrPresent
+    @NotNull(message = "date_of_birth cannot be null")
+    @Column(
+            name = "date_of_birth",
+            nullable = false
+    )
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd 'T' HH:mm:ss[.SSS][.SS][.S]"
+            pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
     )
     private LocalDateTime dateOfBirth;
 
@@ -85,7 +126,7 @@ public class Customer implements Serializable {
     @CreationTimestamp
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd 'T' HH:mm:ss[.SSS][.SS][.S]"
+            pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
     )
     private LocalDateTime createdDate;
 
@@ -96,7 +137,7 @@ public class Customer implements Serializable {
     @UpdateTimestamp
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd 'T' HH:mm:ss[.SSS][.SS][.S]"
+            pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
     )
     private LocalDateTime updatedDate;
 
@@ -135,10 +176,6 @@ public class Customer implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public Long getInn() {
-        return inn;
     }
 
     public void setInn(Long inn) {
@@ -201,10 +238,6 @@ public class Customer implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -234,5 +267,4 @@ public class Customer implements Serializable {
                 ", updatedDate=" + updatedDate +
                 '}';
     }
-
 }

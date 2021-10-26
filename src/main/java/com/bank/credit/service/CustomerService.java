@@ -26,11 +26,6 @@ public class CustomerService implements ICustomerService, Serializable {
     }
 
     @Override
-    public Optional<Customer> findByEmail(String email) {
-        return Optional.empty();
-    }
-
-    @Override
     public List<Customer> getCustomers() {
         return customerRepository.findAll();
     }
@@ -39,22 +34,26 @@ public class CustomerService implements ICustomerService, Serializable {
     public Customer getCustomerById(Long customerId) {
         Optional<Customer> customer = customerRepository.findById(customerId);
         return customer.orElseThrow(() ->
-                new RuntimeException("Customer not found"));
+                new RuntimeException("The customer not found"));
     }
 
     @Override
     public ResponseEntity<?> addCustomer(CustomerDTO customerDTO) {
-//        Optional<Customer> customerOptional = customerRepository.findByEmail(customer.getEmail());
-//        if (customerOptional.isPresent()) {
-//            throw new IllegalStateException("email taken");
-//        }
+        Optional<Customer> customerOptionalByEmail = customerRepository.findByEmail(customerDTO.getEmail());
+        if (customerOptionalByEmail.isPresent()) {
+            throw new IllegalStateException("Email has already taken! Enter another one!");
+        }
+        Optional<Customer> customerOptionalByInn = customerRepository.findByInn(customerDTO.getInn());
+        if (customerOptionalByInn.isPresent()) {
+            throw new IllegalStateException("A customer with this INN has already exist, please, enter another one!");
+        }
         Customer customer = CustomerMapper.DtoToEntity(customerDTO);
-        Customer addedCustomer = customerRepository.save(customer);
+        customer = customerRepository.save(customer);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                         .path("/{customerId}")
-                                .buildAndExpand(addedCustomer.getId())
+                                .buildAndExpand(customer.getId())
                                         .toUri();
-        return ResponseEntity.created(location).body(addedCustomer);
+        return ResponseEntity.created(location).body(customer);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class CustomerService implements ICustomerService, Serializable {
         customerRepository.findById(customerId);
         boolean exists = customerRepository.existsById(customerId);
         if (!exists) {
-            throw new IllegalStateException("The customer does not exist");
+            throw new IllegalStateException("The customer does not exist\n");
         }
         customerRepository.deleteById(customerId);
     }
@@ -118,5 +117,4 @@ public class CustomerService implements ICustomerService, Serializable {
 
         return customer;
     }
-
 }
