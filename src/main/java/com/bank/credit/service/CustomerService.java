@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
@@ -38,7 +39,7 @@ public class CustomerService implements ICustomerService, Serializable {
     }
 
     @Override
-    public ResponseEntity<?> addCustomer(CustomerDTO customerDTO) {
+    public ResponseEntity<?> addCustomer(@Valid CustomerDTO customerDTO) {
         Optional<Customer> customerOptionalByEmail = customerRepository.findByEmail(customerDTO.getEmail());
         if (customerOptionalByEmail.isPresent()) {
             throw new IllegalStateException("Email has already taken! Enter another one!");

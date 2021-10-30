@@ -1,5 +1,6 @@
 package com.bank.credit.model;
 
+import com.bank.credit.validation.InnPrefix;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,6 +47,7 @@ public class Customer implements Serializable {
     @Positive
     @NotNull(message = "inn cannot be null")
     @Size(min = 10, max = 10, message = "inn must be 10 characters")
+    @InnPrefix(message = "Inn must not starts from 0!!!")
     @Column(
             name = "inn",
             nullable = false,
@@ -141,41 +143,12 @@ public class Customer implements Serializable {
     )
     private LocalDateTime updatedDate;
 
-    public Customer() {
-    }
-
-    public Customer(Long id) {
-        this.id = id;
-    }
-
-    public Customer(
-            Long id,
-            Long inn,
-            String firstName,
-            String lastName,
-            String phone,
-            String email,
-            String passportCode,
-            String passportNumber,
-            LocalDateTime dateOfBirth,
-            LocalDateTime createdDate,
-            LocalDateTime updatedDate
-    ) {
-        this.id = id;
-        this.inn = inn;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.email = email;
-        this.passportCode = passportCode;
-        this.passportNumber = passportNumber;
-        this.dateOfBirth = dateOfBirth;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public Long getInn() {
+        return inn;
     }
 
     public void setInn(Long inn) {

@@ -1,12 +1,23 @@
 package com.bank.credit.dto;
 
-import java.io.Serializable;
+import com.bank.credit.validation.InnPrefix;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-public class CustomerDTO implements Serializable {
+public class CustomerDTO {
 
+    @Positive
+    @NotNull(message = "inn cannot be null.")
+    @NotBlank(message = "Inn is required!")
+    @Size(min = 10, max = 10, message = "inn must be 10 characters")
+    @InnPrefix(message = "Inn must not starts from 0!!!")
     private Long inn;
 
+    @NotBlank(message = "firstName is required!")
     private String firstName;
 
     private String lastName;
