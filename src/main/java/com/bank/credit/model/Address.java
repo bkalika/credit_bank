@@ -1,23 +1,23 @@
 package com.bank.credit.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "address")
 @DynamicInsert
 @Table(name = "address")
-@JsonIgnoreProperties(value = {"customer", "created_date", "updated_date"})
-public class Address implements Serializable {
+@JsonIgnoreProperties(value = {"customer"})
+public class Address extends EntityAudit implements Serializable {
 
     @Id
     @SequenceGenerator(
@@ -84,20 +84,4 @@ public class Address implements Serializable {
     @Column(name = "is_main", nullable = false)
     @ColumnDefault("false")
     private Boolean isMain;
-
-    @Column(name = "created_date", updatable = false)
-    @CreationTimestamp
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
-    )
-    private LocalDateTime createdDate;
-
-    @Column(name = "updated_date")
-    @UpdateTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
-    )
-    private LocalDateTime updatedDate;
-
 }

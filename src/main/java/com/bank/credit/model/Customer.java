@@ -1,17 +1,17 @@
 package com.bank.credit.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "customer")
 @Table(
         name = "customer",
@@ -22,9 +22,7 @@ import java.time.LocalDateTime;
                 )
         }
 )
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"created_date", "updated_date"})
-public class Customer implements Serializable {
+public class Customer extends EntityAudit implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -100,28 +98,4 @@ public class Customer implements Serializable {
             pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
     )
     private LocalDateTime dateOfBirth;
-
-    @Column(
-            name = "created_date",
-            nullable = false,
-            updatable = false
-    )
-    @CreationTimestamp
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
-    )
-    private LocalDateTime createdDate;
-
-    @Column(
-            name = "updated_date",
-            nullable = false
-    )
-    @UpdateTimestamp
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]"
-    )
-    private LocalDateTime updatedDate;
-
 }
