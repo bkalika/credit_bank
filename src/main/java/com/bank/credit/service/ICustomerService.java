@@ -13,5 +13,5 @@ public interface ICustomerService {
     Customer getCustomerById(Long customerId);
     ResponseEntity<?> addCustomer(CustomerDTO customerDTO);
     void deleteCustomer(Long customerId);
-    Customer updateCustomer(Long customerId, Customer customer);
+    CustomerDTO updateCustomer(Long customerId, CustomerDTO customerDTO);
 }

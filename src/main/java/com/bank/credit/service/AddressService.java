@@ -49,13 +49,4 @@ public class AddressService implements IAddressService, Serializable {
         return ResponseEntity.created(location).body(address);
     }
 
-    @Override
-    public void deleteAddress(Long addressId) {
-
-    }
-
-    @Override
-    public Address updateAddress(Long addressId, Address address) {
-        return null;
-    }
 }

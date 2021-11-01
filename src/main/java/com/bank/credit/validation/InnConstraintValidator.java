@@ -10,6 +10,6 @@ public class InnConstraintValidator implements ConstraintValidator<InnPrefix, Lo
 
     @Override
     public boolean isValid(Long value, ConstraintValidatorContext context) {
-        return value.toString().startsWith("2");
+        return !value.toString().startsWith("0");
     }
 }

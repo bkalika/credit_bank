@@ -32,7 +32,7 @@ public class CustomerService implements ICustomerService, Serializable {
     }
 
     @Override
-    public Customer getCustomerById(Long customerId) {
+    public Customer getCustomerById(@Valid Long customerId) {
         Optional<Customer> customer = customerRepository.findById(customerId);
         return customer.orElseThrow(() ->
                 new RuntimeException("The customer not found"));
@@ -58,7 +58,7 @@ public class CustomerService implements ICustomerService, Serializable {
     }
 
     @Override
-    public void deleteCustomer(Long customerId) {
+    public void deleteCustomer(@Valid Long customerId) {
         customerRepository.findById(customerId);
         boolean exists = customerRepository.existsById(customerId);
         if (!exists) {
@@ -69,53 +69,53 @@ public class CustomerService implements ICustomerService, Serializable {
 
     @Override
     @Transactional
-    public Customer updateCustomer(Long customerId, Customer customer) {
+    public CustomerDTO updateCustomer(@Valid Long customerId, CustomerDTO customerDTO) {
         Customer existedCustomer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new IllegalStateException(
                         "The customer with id " + customerId + " does not exists"
                 ));
 
-        if (customer.getFirstName() != null &&
-                customer.getFirstName().length() > 0 &&
-                !Objects.equals(existedCustomer.getFirstName(), customer.getFirstName())) {
-            existedCustomer.setFirstName(customer.getFirstName());
+        if (customerDTO.getFirstName() != null &&
+                customerDTO.getFirstName().length() > 0 &&
+                !Objects.equals(existedCustomer.getFirstName(), customerDTO.getFirstName())) {
+            existedCustomer.setFirstName(customerDTO.getFirstName());
         }
 
-        if (customer.getLastName() != null &&
-                customer.getLastName().length() > 0 &&
-                !Objects.equals(existedCustomer.getLastName(), customer.getLastName())) {
-            existedCustomer.setLastName(customer.getLastName());
+        if (customerDTO.getLastName() != null &&
+                customerDTO.getLastName().length() > 0 &&
+                !Objects.equals(existedCustomer.getLastName(), customerDTO.getLastName())) {
+            existedCustomer.setLastName(customerDTO.getLastName());
         }
 
-        if (customer.getPhone() != null &&
-                customer.getPhone().length() > 0 &&
-                !Objects.equals(existedCustomer.getPhone(), customer.getPhone())) {
-            existedCustomer.setPhone(customer.getPhone());
+        if (customerDTO.getPhone() != null &&
+                customerDTO.getPhone().length() > 0 &&
+                !Objects.equals(existedCustomer.getPhone(), customerDTO.getPhone())) {
+            existedCustomer.setPhone(customerDTO.getPhone());
         }
 
-        if (customer.getEmail() != null &&
-                customer.getEmail().length() > 0 &&
-                !Objects.equals(existedCustomer.getEmail(), customer.getEmail())) {
-            existedCustomer.setEmail(customer.getEmail());
+        if (customerDTO.getEmail() != null &&
+                customerDTO.getEmail().length() > 0 &&
+                !Objects.equals(existedCustomer.getEmail(), customerDTO.getEmail())) {
+            existedCustomer.setEmail(customerDTO.getEmail());
         }
 
-        if (customer.getPassportCode() != null &&
-                customer.getPassportCode().length() > 0 &&
-                !Objects.equals(existedCustomer.getPassportCode(), customer.getPassportCode())) {
-            existedCustomer.setPassportCode(customer.getPassportCode());
+        if (customerDTO.getPassportCode() != null &&
+                customerDTO.getPassportCode().length() > 0 &&
+                !Objects.equals(existedCustomer.getPassportCode(), customerDTO.getPassportCode())) {
+            existedCustomer.setPassportCode(customerDTO.getPassportCode());
         }
 
-        if (customer.getPassportNumber() != null &&
-                customer.getPassportNumber().length() > 0 &&
-                !Objects.equals(existedCustomer.getPassportNumber(), customer.getPassportNumber())) {
-            existedCustomer.setPassportNumber(customer.getPassportNumber());
+        if (customerDTO.getPassportNumber() != null &&
+                customerDTO.getPassportNumber().length() > 0 &&
+                !Objects.equals(existedCustomer.getPassportNumber(), customerDTO.getPassportNumber())) {
+            existedCustomer.setPassportNumber(customerDTO.getPassportNumber());
         }
 
-        if (customer.getDateOfBirth() != null &&
-                !Objects.equals(existedCustomer.getDateOfBirth(), customer.getDateOfBirth())) {
-            existedCustomer.setDateOfBirth(customer.getDateOfBirth());
+        if (customerDTO.getDateOfBirth() != null &&
+                !Objects.equals(existedCustomer.getDateOfBirth(), customerDTO.getDateOfBirth())) {
+            existedCustomer.setDateOfBirth(customerDTO.getDateOfBirth());
         }
 
-        return customer;
+        return customerDTO;
     }
 }

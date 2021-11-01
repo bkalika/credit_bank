@@ -1,99 +1,43 @@
 package com.bank.credit.dto;
 
 import com.bank.credit.model.Customer;
+import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@Data
 public class AddressDTO implements Serializable {
 
     private Customer customer;
 
+    @Positive
+    @NotNull(message = "zip_code cannot be null")
     private Long zipCode;
 
+    @NotNull(message = "country cannot be null")
+    @Size(max = 25, message = "country must be less than 25 characters")
     private String country;
 
+    @NotNull(message = "city cannot be null")
+    @Size(max = 40, message = "city must be less than 40 characters")
     private String city;
 
+    @NotNull(message = "street cannot be null")
+    @Size(max = 255, message = "street must be less than 255 characters")
     private String street;
 
+    @NotNull(message = "build_number cannot be null")
+    @Size(max = 15, message = "build_number must be less than 15 characters")
     private String buildNumber;
 
+    @Positive
     private Long apartment;
 
     private Boolean isRegistered;
 
     private Boolean isMain;
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Long getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(Long zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getBuildNumber() {
-        return buildNumber;
-    }
-
-    public void setBuildNumber(String buildNumber) {
-        this.buildNumber = buildNumber;
-    }
-
-    public Long getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(Long apartment) {
-        this.apartment = apartment;
-    }
-
-    public Boolean getRegistered() {
-        return isRegistered;
-    }
-
-    public void setRegistered(Boolean registered) {
-        isRegistered = registered;
-    }
-
-    public Boolean getMain() {
-        return isMain;
-    }
-
-    public void setMain(Boolean main) {
-        isMain = main;
-    }
 
 }

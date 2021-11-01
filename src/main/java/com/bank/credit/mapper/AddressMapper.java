@@ -13,8 +13,8 @@ public class AddressMapper {
         address.setStreet(addressDTO.getStreet());
         address.setBuildNumber(addressDTO.getBuildNumber());
         address.setApartment(addressDTO.getApartment());
-        address.setRegistered(addressDTO.getRegistered());
-        address.setMain(addressDTO.getMain());
+        address.setIsRegistered(addressDTO.getIsRegistered());
+        address.setIsMain(addressDTO.getIsMain());
         return address;
     }
 }

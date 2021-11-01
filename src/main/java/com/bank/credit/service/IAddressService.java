@@ -11,6 +11,4 @@ import java.util.List;
 public interface IAddressService {
     List<Address> getAddressesByCustomer(Long customerId);
     ResponseEntity<?> addAddressToCustomer(Long customerId, AddressDTO addressDTO);
-    void deleteAddress(Long addressId);
-    Address updateAddress(Long addressId, Address address);
 }

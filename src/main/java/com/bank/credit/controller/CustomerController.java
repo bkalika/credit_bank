@@ -8,14 +8,12 @@ import com.bank.credit.model.Customer;
 import com.bank.credit.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/api/v1/customers")
-@Validated
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -36,7 +34,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
+    ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
         ResponseEntity<?> customer = customerService.addCustomer(customerDTO);
         return ResponseEntity.ok().body(customer);
     }
@@ -54,8 +52,8 @@ public class CustomerController {
     public ResponseEntity<?> updateCustomer(
             @Valid
             @PathVariable("customerId") Long customerId,
-            @RequestBody(required = false) Customer customer) {
-        Customer updatedCustomer = customerService.updateCustomer(customerId, customer);
+            @RequestBody(required = false) CustomerDTO customerDTO) {
+        CustomerDTO updatedCustomer = customerService.updateCustomer(customerId, customerDTO);
         return ResponseEntity.ok().body(updatedCustomer);
     }
 }

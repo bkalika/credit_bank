@@ -24,14 +24,12 @@ public class AddressController {
 
     @GetMapping
     public List<Address> getAddressesByCustomer(
-            @Valid
-            @PathVariable("customerId") Long customerId) {
+            @Valid @PathVariable("customerId") Long customerId) {
         return addressService.getAddressesByCustomer(customerId);
     }
 
     @PostMapping
     public ResponseEntity<?> createAddressToCustomer(
-            @Valid
             @PathVariable("customerId") Long customerId,
             @Valid @RequestBody AddressDTO addressDTO) {
         ResponseEntity<?> address = addressService.addAddressToCustomer(customerId, addressDTO);

@@ -1,18 +1,17 @@
 package com.bank.credit.model;
 
-import com.bank.credit.validation.InnPrefix;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
+@Data
 @Entity(name = "customer")
 @Table(
         name = "customer",
@@ -44,10 +43,6 @@ public class Customer implements Serializable {
     )
     private Long id;
 
-    @Positive
-    @NotNull(message = "inn cannot be null")
-    @Size(min = 10, max = 10, message = "inn must be 10 characters")
-    @InnPrefix(message = "Inn must not starts from 0!!!")
     @Column(
             name = "inn",
             nullable = false,
@@ -56,8 +51,6 @@ public class Customer implements Serializable {
     )
     private Long inn;
 
-    @NotNull(message = "first_name cannot be null")
-    @Size(max = 35, message = "first_name must be less than 35 characters")
     @Column(
             name = "first_name",
             nullable = false,
@@ -65,33 +58,25 @@ public class Customer implements Serializable {
     )
     private String firstName;
 
-    @NotNull(message = "last_name cannot be null")
-    @Size(max = 35, message = "last_name must be less than 35 characters")
     @Column(
             name = "last_name",
+            nullable = false,
             length = 35
     )
     private String lastName;
 
-    @Positive
-    @Size(min = 10, max = 10, message = "phone must be 10 characters")
     @Column(
             name = "phone",
-            length = 10
+            length = 8
     )
     private String phone;
 
-    @Email(message = "Email should be valid")
-    @NotNull(message = "email cannot be null")
     @Column(
             name = "email",
             nullable = false
     )
     private String email;
 
-    @Positive
-    @NotNull(message = "passport_code cannot be null")
-    @Size(min = 2, max = 2, message = "passport_code must be 2 characters")
     @Column(
             name = "passport_code",
             nullable = false,
@@ -99,8 +84,6 @@ public class Customer implements Serializable {
     )
     private String passportCode;
 
-    @NotNull(message = "passport_number cannot be null")
-    @Size(min = 6, max = 10, message = "passport_number must be between 6 and 10 characters")
     @Column(
             name = "passport_number",
             nullable = false,
@@ -108,8 +91,6 @@ public class Customer implements Serializable {
     )
     private String passportNumber;
 
-    @PastOrPresent
-    @NotNull(message = "date_of_birth cannot be null")
     @Column(
             name = "date_of_birth",
             nullable = false
@@ -143,101 +124,4 @@ public class Customer implements Serializable {
     )
     private LocalDateTime updatedDate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public Long getInn() {
-        return inn;
-    }
-
-    public void setInn(Long inn) {
-        this.inn = inn;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassportCode() {
-        return passportCode;
-    }
-
-    public void setPassportCode(String passportCode) {
-        this.passportCode = passportCode;
-    }
-
-    public String getPassportNumber() {
-        return passportNumber;
-    }
-
-    public void setPassportNumber(String passportNumber) {
-        this.passportNumber = passportNumber;
-    }
-
-    public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id) && Objects.equals(inn, customer.inn) && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(phone, customer.phone) && Objects.equals(email, customer.email) && Objects.equals(passportCode, customer.passportCode) && Objects.equals(passportNumber, customer.passportNumber) && Objects.equals(dateOfBirth, customer.dateOfBirth) && Objects.equals(createdDate, customer.createdDate) && Objects.equals(updatedDate, customer.updatedDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, inn, firstName, lastName, phone, email, passportCode, passportNumber, dateOfBirth, createdDate, updatedDate);
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", inn=" + inn +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", passportCode='" + passportCode + '\'' +
-                ", passportNumber='" + passportNumber + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", createdDate=" + createdDate +
-                ", updatedDate=" + updatedDate +
-                '}';
-    }
 }
