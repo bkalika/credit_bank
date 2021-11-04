@@ -26,7 +26,7 @@ public class CustomerDTO {
     private String lastName;
 
     @Positive
-    @Size(min = 8, max = 8, message = "phone must be 8 characters")
+    @Size(min = 10, max = 10, message = "phone must be 10 characters")
     @NotNull(message = "phone cannot be null")
     @PhonePrefix(message = "Phone must starts with 0")
     @NotBlank(message = "Phone is required!")

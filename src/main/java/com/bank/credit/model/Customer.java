@@ -65,7 +65,7 @@ public class Customer extends EntityAudit implements Serializable {
 
     @Column(
             name = "phone",
-            length = 8
+            length = 10
     )
     private String phone;
 
